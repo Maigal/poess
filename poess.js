@@ -7,11 +7,8 @@ function load() {
         wrapper.innerHTML = ''
 
         savedUrls.forEach((link, index) => {
-            let el = document.createElement('a')
-            el.innerHTML = link
-            el.dataset.id = index
-            el.setAttribute('href', link)
-
+            
+            let el = generateItem('test', link, index, 'web')
             wrapper.appendChild(el)
         })
     });
@@ -34,6 +31,15 @@ function addUrl(url) {
     chrome.storage.local.set({tests: [...savedUrls, url]}, function() {
         load()
     })
+}
+
+function generateItem(name, url, index, website) {
+    let el = document.createElement('a')
+    el.innerHTML = url
+    el.dataset.id = index
+    el.setAttribute('href', url)
+
+    return el
 }
 
 load()
