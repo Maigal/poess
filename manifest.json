@@ -1,0 +1,10 @@
+{  
+    "name": "POE Search Saver",  
+    "version": "1.0.0",  
+    "description": "Path of Exile Search Saver",  
+    "browser_action": {  
+      "default_popup": "main.html" 
+    }, 
+    "permissions": ["tabs", "storage"],
+    "manifest_version": 2  
+  }  
