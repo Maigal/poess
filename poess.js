@@ -1,5 +1,6 @@
 let savedUrls = []
 const wrapper = document.getElementById('links-wrapper')
+const input = document.getElementById('nameInput')
 
 function load() {
     chrome.storage.local.get(['tests'], function(result) {
@@ -16,15 +17,22 @@ document.getElementById('addButton').addEventListener('click', function() {
         { 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT },
         function (tabs) { 
             const currentUrl = tabs[0].url
-            addItem(currentUrl)
+            if (currentUrl.includes('https://poe.trade/') || currentUrl.includes('pathofexile.com')) {
+                addItem({
+                    url: currentUrl,
+                    name: input.value
+                })
+            } else {
+                console.log('Invalid website')
+            }
+            
         }
     );
 
     
 })
 
-function link(url, asd) {
-    console.log(url, asd)
+function link(url) {
     chrome.tabs.create({ url: url });
     
 }
