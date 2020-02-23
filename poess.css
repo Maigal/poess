@@ -69,14 +69,14 @@ h1 {
   justify-content: center;
 }
 
-#prompt input[type=text] {
+#nameInput {
   height: 100%;
   padding: 5px;
   font-family: 'Fontin', sans-serif;
   font-size: 16px;
 }
 
-#prompt button{
+#addButton{
   background: #FA6E23;
   color: #FAFAFA;
   border: none;
@@ -89,6 +89,10 @@ h1 {
   padding: 0 10px;
 }
 
-#prompt button:hover {
+#addButton:disabled {
+  background: gray;
+}
+
+#addButton:hover {
   opacity: 0.7;
 }
