@@ -37,8 +37,8 @@ function link(url) {
     
 }
 
-function addItem(url) {
-    chrome.storage.local.set({tests: [...savedUrls, url]}, function() {
+function addItem({url, name}) {
+    chrome.storage.local.set({tests: [...savedUrls, {url, name}]}, function() {
         load()
     })
 }
