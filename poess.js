@@ -66,6 +66,13 @@ function storeItem({url, name}) {
     })
 }
 
+function editItem(url) {
+    // const newUrls = savedUrls.filter(el => el.url !== url)
+    // chrome.storage.local.set({tests: newUrls}, function() {
+    //     load()
+    // })
+}
+
 function deleteItem(url) {
     const newUrls = savedUrls.filter(el => el.url !== url)
     chrome.storage.local.set({tests: newUrls}, function() {
@@ -87,11 +94,17 @@ function generateItem(name, url, index, website) {
     elLink.classList.add('link-name')
     el.appendChild(elLink)
 
-    let elDelete = document.createElement('span')
-    elDelete.classList.add('btn-delete')
-    elDelete.onclick= () => deleteItem(url)
-    elDelete.innerHTML = 'X'
-    el.appendChild(elDelete)
+    let elBtnEdit = document.createElement('span')
+    elBtnEdit.classList.add('btn-edit')
+    elBtnEdit.onclick= () => editItem(url)
+    elBtnEdit.innerHTML = 'E'
+    el.appendChild(elBtnEdit)
+
+    let elBtnDelete = document.createElement('span')
+    elBtnDelete.classList.add('btn-delete')
+    elBtnDelete.onclick= () => deleteItem(url)
+    elBtnDelete.innerHTML = 'X'
+    el.appendChild(elBtnDelete)
     
 
     return el
