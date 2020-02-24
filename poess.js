@@ -9,10 +9,11 @@ function init() {
         { 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT },
         function (tabs) { 
             currentUrl = tabs[0].url
+            validateButtonStatus(currentUrl)
+            load()
         }
     );
-    validateButtonStatus(currentUrl)
-    load()
+    
 }
 
 function load() {
@@ -42,7 +43,7 @@ addButton.addEventListener('click', function() {
 })
 
 function isUrlValid(url) {
-    return url.includes('https://poe.trade/') || url.includes('pathofexile.com')
+    return url.includes('poe.trade') || url.includes('pathofexile.com')
 }
 
 function validateButtonStatus(url) {
@@ -60,18 +61,38 @@ function link(url) {
 
 function storeItem({url, name}) {
     chrome.storage.local.set({tests: [...savedUrls, {url, name}]}, function() {
+        input.value = ''
+        load()
+    })
+}
+
+function deleteItem(url) {
+    const newUrls = savedUrls.filter(el => el.url !== url)
+    chrome.storage.local.set({tests: newUrls}, function() {
         load()
     })
 }
 
 function generateItem(name, url, index, website) {
-    let el = document.createElement('a')
-    el.innerHTML = name
+    let el = document.createElement('div')
+    //el.innerHTML = name
     el.dataset.id = index
     el.dataset.url = url
     el.classList.add('link')
-    el.onclick= () => link(url)
+    
 
+    let elLink = document.createElement('span')
+    elLink.onclick= () => link(url)
+    elLink.innerHTML = name
+    elLink.classList.add('link-name')
+    el.appendChild(elLink)
+
+    let elDelete = document.createElement('span')
+    elDelete.classList.add('btn-delete')
+    elDelete.onclick= () => deleteItem(url)
+    elDelete.innerHTML = 'X'
+    el.appendChild(elDelete)
+    
 
     return el
 }

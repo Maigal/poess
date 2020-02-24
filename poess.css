@@ -42,20 +42,36 @@ h1 {
 .link {
   display: flex;
   align-items: center;
-  padding: 5px;
   font-size: 14px;
   margin: 5px 10px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
   background: #FFFFFF;
   cursor: pointer;
   color: #4C0D0B;
+}
+
+
+.link-name {
+  padding: 5px;
+  flex-grow: 1;
   transition: .3s all ease;
 }
 
-.link:hover {
+.link-name:hover {
   opacity: 0.7;
 }
 
+.btn-delete {
+  background: #b13c3c;
+  color: white;
+  margin-left: auto;
+  padding: 5px 10px;
+  transition: .3s all ease;
+}
+
+.btn-delete:hover {
+  opacity: 0.7;
+}
 
 #prompt {
   padding: 10px;
@@ -96,3 +112,4 @@ h1 {
 #addButton:hover {
   opacity: 0.7;
 }
+
