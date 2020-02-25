@@ -2,6 +2,7 @@ let savedUrls = []
 const wrapper = document.getElementById('links-wrapper')
 const input = document.getElementById('nameInput')
 const addButton = document.getElementById('addButton')
+const notification = document.getElementById('notification')
 let currentUrl = ''
 
 function init() {
@@ -60,17 +61,47 @@ function link(url) {
 }
 
 function storeItem({url, name}) {
-    chrome.storage.local.set({tests: [...savedUrls, {url, name}]}, function() {
-        input.value = ''
-        load()
-    })
+    if (!savedUrls.find(el => el.url === url)) {
+        chrome.storage.local.set({tests: [...savedUrls, {url, name}]}, function() {
+            input.value = ''
+            load()
+        })
+    } else {
+        throwNotification('Link already exists')
+    }
+    
 }
 
-function editItem(url) {
-    // const newUrls = savedUrls.filter(el => el.url !== url)
-    // chrome.storage.local.set({tests: newUrls}, function() {
-    //     load()
-    // })
+function activateItem(url, name) {
+    const textEl = document.getElementById(`text-${url}`)
+    const inputEl = document.getElementById(`input-${url}`)
+
+    textEl.style.display = 'none'
+    inputEl.style.display = 'flex'
+    inputEl.value = name;
+}
+
+function editItem(val, url) {
+
+    const textEl = document.getElementById(`text-${url}`)
+    const inputEl = document.getElementById(`input-${url}`)
+
+    textEl.style.display = 'flex'
+    inputEl.style.display = 'none'
+    inputEl.value = '';
+
+    const newUrls = savedUrls.map(el => {
+        if (el.url === url) {
+            return {
+                ...el,
+                name: val
+            }
+        }
+        return el
+    })
+    chrome.storage.local.set({tests: newUrls}, function() {
+        load()
+    })
 }
 
 function deleteItem(url) {
@@ -91,12 +122,20 @@ function generateItem(name, url, index, website) {
     let elLink = document.createElement('span')
     elLink.onclick= () => link(url)
     elLink.innerHTML = name
+    elLink.id = `text-${url}`
     elLink.classList.add('link-name')
     el.appendChild(elLink)
 
+    let elLinkEdit = document.createElement('input')
+    elLinkEdit.setAttribute('type', 'text')
+    elLinkEdit.classList.add('link-input')
+    elLinkEdit.id = `input-${url}`
+    elLinkEdit.onblur= (e) => editItem(e.target.value, url)
+    el.appendChild(elLinkEdit)
+
     let elBtnEdit = document.createElement('span')
     elBtnEdit.classList.add('btn-edit')
-    elBtnEdit.onclick= () => editItem(url)
+    elBtnEdit.onclick= () => activateItem(url, name)
     elBtnEdit.innerHTML = 'E'
     el.appendChild(elBtnEdit)
 
@@ -108,6 +147,14 @@ function generateItem(name, url, index, website) {
     
 
     return el
+}
+
+function throwNotification(msg) {
+    notification.classList.add('active')
+    notification.innerHTML = msg
+    setTimeout(function() {
+        notification.classList.remove('active')
+    }, 2000)    
 }
 
 function render() {
