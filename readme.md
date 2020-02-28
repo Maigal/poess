@@ -1,3 +1,3 @@
-## POE Search Saver
+POE Search Saver is now being remade in this repo: https://github.com/Maigal/poe-search-saver
 
-Chrome extension for quickly bookmarking and organizing [**poe.trade**](https://poe.trade/ "poe.trade") and [**pathofexile**](https://www.pathofexile.com/trade/ "**pathofexile**").com search results.
+This was created with the only purpose of exploring the basic functionality of chrome extensions.
